@@ -17,9 +17,10 @@
 ;;; [5] C..
 ;;; Two parabolic ribbons blended by a cubic Hermite function.
 ;;; The ribbons' radii of curvature are set in such a way,
-;;; that they interpolate the value set on the slider.
+;;; that the curve's curvature interpolates the value set on the slider.
 ;;; [6] CG.
-;;; Same as above, but reparameterized in a "nice" way.
+;;; Same as above, but reparameterized in a "nice" way,
+;;; resulting in more flat curves.
 ;;; [7] C.Q
 ;;; Two parabolic ribbons blended by a quintic Hermite function.
 ;;; The ribbons' radii of curvature are set on the slider.
