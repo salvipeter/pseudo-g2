@@ -18,10 +18,12 @@
 ;;; Two parabolic ribbons blended by a cubic Hermite function.
 ;;; The ribbons' radii of curvature are set in such a way,
 ;;; that they interpolate the value set on the slider.
-;;; [6] C.Q
+;;; [6] CG.
+;;; Same as above, but reparameterized in a "nice" way.
+;;; [7] C.Q
 ;;; Two parabolic ribbons blended by a quintic Hermite function.
 ;;; The ribbons' radii of curvature are set on the slider.
-;;; [7] CGQ
+;;; [8] CGQ
 ;;; Same as above, but reparameterized such that it interpolates
 ;;; the quintic Hermite curve.
 
@@ -115,18 +117,28 @@
 
 ;;; delta = H2/H0, where
 ;;;   H2 = -1/2u5+3/2u4-3/2u3+1/2u2
+;;; and in the cubic case
+;;;   delta = gamma2/2
 (define (delta u)
-  (if (and gamma? quintic?)
-      (/ (* u u)
-         (* 2 (+ (* 6 u u) (* 3 u) 1)))
+  (if gamma?
+      (if quintic?
+          (/ (* u u)
+             (* 2 (+ (* 6 u u) (* 3 u) 1)))
+          (let ([g (gamma u)])
+            (* g g 1/2)))
       (* u u 1/2)))
 
 (define (delta-derivative k u)
-  (if (and gamma? quintic?)
-      (let ([denom (+ (* 6 u u) (* 3 u) 1)])
+  (if gamma?
+      (if quintic?
+          (let ([denom (+ (* 6 u u) (* 3 u) 1)])
             (if (= k 1)
                 (/ (* u (+ (* 3 u) 2)) 2 denom denom)
                 (/ (+ 1 (* -18 u u u) (* -18 u u)) denom denom denom)))
+          (if (= k 1)
+              (* (gamma u) (gamma-derivative 1 u))
+              (let ([g (gamma-derivative 1 u)])
+                (+ (* g g) (* (gamma u) (gamma-derivative 2 u))))))
       (if (= k 1) u 1)))
 
 (define (linear-ribbon p d)
@@ -147,7 +159,10 @@
                (let* ([xp (rotate-to p1 n (if (equal? d d1a) p0 p2))]
                       [xt (rotate-vector n (v* (if (equal? d d1a) d0 d2) 2 alpha))]
                       [xq (v* xt (- (/ alpha) 2))])
-                 (/ (+ (* 6 (first xp)) (* 6 (first xt)) (* 3 (first xq))) 2)))])
+                 (if gamma?
+                     (let ([xt1 (rotate-vector n (v* d 2 alpha))])
+                       (/ (+ (* -4 (first xt1)) (* 6 (first xp)) (* 2 (first xt)) (* 1/3 (first xq))) 2))
+                     (/ (+ (* 6 (first xp)) (* 6 (first xt)) (* 3 (first xq))) 2))))])
       (list p (v+ p (v* d alpha))
             (if (= c 0)
                 (v+ p d)

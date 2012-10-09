@@ -1,70 +1,49 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
-\lyxformat 413
+#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass article
 \use_default_options true
-\maintain_unincluded_children false
 \language english
-\language_package default
 \inputencoding auto
-\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family default
-\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
-\default_output_format default
-\output_sync 0
-\bibtex_command default
-\index_command default
 \paperfontsize default
 \use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\use_mhchem 1
-\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
-\use_indices false
 \paperorientation portrait
-\suppress_date false
-\use_refstyle 1
-\index Index
-\shortcut idx
-\color #008000
-\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
-\paragraph_indentation default
+\defskip medskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\html_math_output 0
-\html_css_as_file 0
-\html_be_strict false
+\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Standard
 Adott egy görbe két parabola harmadfokú blendeléséből:
-\begin_inset Formula 
-\[
-C(d)=\left(P_{1}+dT_{1}+\frac{d^{2}}{2}Q_{1}\right)H(d)+\left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H(1-d),
-\]
+\begin_inset Formula \[
+C(d)=\left(P_{1}+dT_{1}+\frac{d^{2}}{2}Q_{1}\right)H(d)+\left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H(1-d),\]
 
 \end_inset
 
@@ -72,31 +51,25 @@ ez alapján az első derivált
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\begin{eqnarray*}
+\begin_inset Formula \begin{eqnarray*}
 C'(d) & = & \left(T_{1}+dQ_{1}\right)H(d)+\left(P_{1}+dT_{1}+\frac{d^{2}}{2}Q_{1}\right)H'(d)\\
  & - & (T_{2}+(1-d)Q_{2})H(1-d)\\
- & - & \left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H'(1-d)
-\end{eqnarray*}
+ & - & \left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H'(1-d)\end{eqnarray*}
 
 \end_inset
 
 és a második derivált
-\begin_inset Formula 
-\begin{eqnarray*}
+\begin_inset Formula \begin{eqnarray*}
 C''(d) & = & Q_{1}H(d)+2\left(T_{1}+dQ_{1}\right)H'(d)+\left(P_{1}+dT_{1}+\frac{d^{2}}{2}Q_{1}\right)H''(d)\\
  & + & Q_{2}H(1-d)+2(T_{2}+(1-d)Q_{2})H'(1-d)\\
- & + & \left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H''(1-d),
-\end{eqnarray*}
+ & + & \left(P_{2}+(1-d)T_{2}+\frac{(1-d)^{2}}{2}Q_{2}\right)H''(1-d),\end{eqnarray*}
 
 \end_inset
 
 ahonnan
-\begin_inset Formula 
-\begin{eqnarray*}
+\begin_inset Formula \begin{eqnarray*}
 C''(0) & = & Q_{1}+P_{1}H''(0)+\left(P_{2}+T_{2}+\frac{1}{2}Q_{2}\right)H''(1)\\
- & = & Q_{1}+6(P_{2}-P_{1})+6T_{2}+3Q_{2}=:Q_{1}-6P_{1}+\chi_{2}.
-\end{eqnarray*}
+ & = & Q_{1}+6(P_{2}-P_{1})+6T_{2}+3Q_{2}=:Q_{1}-6P_{1}+\chi_{2}.\end{eqnarray*}
 
 \end_inset
 
@@ -105,18 +78,14 @@ C''(0) & = & Q_{1}+P_{1}H''(0)+\left(P_{2}+T_{2}+\frac{1}{2}Q_{2}\right)H''(1)\\
 
 \begin_layout Standard
 A görbe görbülete a 0 paraméternél
-\begin_inset Formula 
-\[
-\kappa=\frac{\|T_{1}\times C''(0)\|}{\|T_{1}\|^{3}},
-\]
+\begin_inset Formula \[
+\kappa=\frac{\|T_{1}\times C''(0)\|}{\|T_{1}\|^{3}},\]
 
 \end_inset
 
 és mi változtatni tudjuk a parabola görbületét:
-\begin_inset Formula 
-\[
-\hat{\kappa}=\frac{\|T_{1}\times Q_{1}\|}{\|T_{1}\|^{3}}.
-\]
+\begin_inset Formula \[
+\hat{\kappa}=\frac{\|T_{1}\times Q_{1}\|}{\|T_{1}\|^{3}}.\]
 
 \end_inset
 
@@ -164,11 +133,9 @@ Legyen a koordinátarendszerünk olyan, hogy
 
  koordinátákra esnek.
  Ekkor
-\begin_inset Formula 
-\begin{eqnarray*}
+\begin_inset Formula \begin{eqnarray*}
 \kappa & = & \frac{\left\Vert (2\alpha d,0)\times\left((-4\alpha d+2d,2h)+\chi_{2}\right)\right\Vert }{\|(2\alpha d,0)\|^{3}}\\
- & = & \frac{2\alpha d(2h+\chi_{2}^{y})}{(2\alpha d)^{3}}=\frac{2h+\chi_{2}^{y}}{4\alpha^{2}d^{2}},
-\end{eqnarray*}
+ & = & \frac{2\alpha d(2h+\chi_{2}^{y})}{(2\alpha d)^{3}}=\frac{2h+\chi_{2}^{y}}{4\alpha^{2}d^{2}},\end{eqnarray*}
 
 \end_inset
 
@@ -186,10 +153,37 @@ ahol
 
 -koordinátája a fenti koordinátarendszerben.
  Ebből
-\begin_inset Formula 
-\[
-h:=\frac{4\alpha^{2}d^{2}\kappa_{0}-\chi_{2}^{y}}{2}.
-\]
+\begin_inset Formula \[
+h:=\frac{4\alpha^{2}d^{2}\kappa_{0}-\chi_{2}^{y}}{2}.\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hasonlóan levezethető, hogy ha a ribbon 
+\begin_inset Formula $P_{i}+\gamma(d)T_{i}+\delta(d)Q_{i}$
+\end_inset
+
+ alakú, akkor a második derivált
+\begin_inset Formula \begin{eqnarray*}
+C''(0) & = & (\gamma''(0)T_{1}+\delta''(0)Q_{1})\\
+ & - & 6(P_{1}+\gamma(0)T_{1}+\delta(0)Q_{1})\\
+ & + & 6(P_{2}+\gamma(1)T_{2}+\delta(1)Q_{2}).\end{eqnarray*}
+
+\end_inset
+
+Ha most
+\begin_inset Formula \begin{eqnarray*}
+\gamma(d) & = & \frac{d}{2d+1},\\
+\delta(d) & = & \gamma(d)^{2}/2,\end{eqnarray*}
+
+\end_inset
+
+akkor ebből
+\begin_inset Formula \[
+C''(0)=Q_{1}-4T_{1}+6(P_{2}-P_{1}+\frac{1}{3}T_{2}+\frac{1}{18}Q_{2}).\]
 
 \end_inset
 
