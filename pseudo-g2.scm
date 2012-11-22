@@ -34,7 +34,7 @@
 (require racket/gui)
 
 ;;; Parameters
-(define alpha 1/4)         ; placement of the curved ribbon's first control point
+(define alpha -1)         ; placement of the curved ribbon's first control point
 (define point-radius 4)
 (define line-width 2)
 (define resolution 100)
@@ -69,6 +69,13 @@
 (define deviation #f)
 
 ;;; Basic Maths
+(define (safe-/ a . args)
+  (if (null? args)
+      (safe-/ 1 a)
+      (let ([denom (foldl * 1 args)])
+        (if (= denom 0)
+            0
+            (/ a denom)))))
 (define (binomial n k)
   (if (= k 0)
       1
@@ -154,20 +161,26 @@
         [q (v* (v+ p0 p2) 1/2)])
     (when (< (scalar-product (v- q p1) n) 0)
       (set! n (v* n -1)))
-    (let ([correction
-           (if (or quintic? (not (or (equal? d d1a) (equal? d d1b))))
-               0
-               (let* ([xp (rotate-to p1 n (if (equal? d d1a) p0 p2))]
-                      [xt (rotate-vector n (v* (if (equal? d d1a) d0 d2) 2 alpha))]
-                      [xq (v* xt (- (/ alpha) 2))])
-                 (if gamma?
-                     (let ([xt1 (rotate-vector n (v* d 2 alpha))])
-                       (/ (+ (* -4 (first xt1)) (* 6 (first xp)) (* 2 (first xt)) (* 1/3 (first xq))) 2))
-                     (/ (+ (* 6 (first xp)) (* 6 (first xt)) (* 3 (first xq))) 2))))])
-      (list p (v+ p (v* d alpha))
-            (if (= c 0)
-                (v+ p d)
-                (v+ p d (v* n (- (* (scalar-product d d) 2 alpha alpha (/ c)) correction))))))))
+    (let* ([correction
+            (if (or quintic? (not (or (equal? d d1a) (equal? d d1b))))
+                0
+                (let* ([xp (rotate-to p1 n (if (equal? d d1a) p0 p2))]
+                       [xt (rotate-vector n (v* (if (equal? d d1a) d0 d2) 2 alpha))]
+                       [xq (v* xt (- (/ alpha) 2))])
+                  (if gamma?
+                      (let ([xt1 (rotate-vector n (v* d 2 alpha))])
+                        (/ (+ (* -4 (first xt1)) (* 6 (first xp)) (* 2 (first xt)) (* 1/3 (first xq)))
+                           2))
+                      (/ (+ (* 6 (first xp)) (* 6 (first xt)) (* 3 (first xq))) 2))))]
+           [dl (vlength d)]
+           [alpha-d (if (= alpha -1)
+                        (v* d (safe-/ (- (sqrt (+ (* 4 dl c) (* c c))) c) (* 4 dl)))
+                        (v* d alpha))]
+           [h (if (= alpha -1)
+                  (- (/ dl 2) (vlength alpha-d))
+                  (* (scalar-product alpha-d alpha-d) 2 (safe-/ c)))])
+      (list p (v+ p alpha-d)
+            (v+ p d (v* n (- h correction)))))))
 
 (define (curved-ribbon p d c)
   (let* ([points (curved-ribbon-cp-% p d c)]
