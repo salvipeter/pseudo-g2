@@ -34,7 +34,7 @@
 (require racket/gui)
 
 ;;; Parameters
-(define alpha -1)         ; placement of the curved ribbon's first control point
+(define alpha -1)         ; placement of the curved ribbon's first control point, -1 & -2: special
 (define point-radius 4)
 (define line-width 2)
 (define resolution 100)
@@ -156,6 +156,38 @@
 (define (linear-ribbon-derivative d)
   (lambda (k u) (v* d (gamma-derivative k u))))
 
+(define (solve-depressed a c d)
+  (let ((epsilon 1.0e-7))
+    (if (< (abs a) epsilon)
+        (/ (- d) c)
+        (let* ((minv 0) (maxv 0.5)
+               (mine (- minv epsilon)) (maxe (+ maxv epsilon))
+               (p (/ c a)) (q (/ d a))
+               (tmp (- (/ q -2) (sqrt (+ (* q q 1/4) (* p p p 1/27)))))
+               (u (if (< tmp 0) (- (expt (- tmp) 1/3)) (expt tmp 1/3)))
+               (tt (- u (/ p 3 u)))
+               (v (+ p (* tt tt))) (w (/ tt 2))
+               (D (- (* w w) v)))
+          (if (> D (- epsilon))
+              (let* ((D (abs D))
+                     (root (sqrt D))
+                     (r1 (+ (- w) root))
+                     (r2 (- (- w) root)))
+                (if (<= mine tt maxe)
+                    (if (or (<= mine r1 maxe)
+                            (<= mine r2 maxe))
+                        (error "ambiguous alpha value")
+                        tt)
+                    (if (and (<= mine r1 maxe)
+                             (<= mine r2 maxe))
+                        (error "ambiguous alpha value")
+                        (if (<= mine r1 maxe)
+                            r1
+                            (if (<= mine r2 maxe)
+                                r2
+                                (error "alpha value out of range"))))))
+              tt)))))
+
 (define (curved-ribbon-cp-% p d c)
   (let ([n (vnormalize (vperp d))]
         [q (v* (v+ p0 p2) 1/2)])
@@ -173,9 +205,10 @@
                            2))
                       (/ (+ (* 6 (first xp)) (* 6 (first xt)) (* 3 (first xq))) 2))))]
            [dl (vlength d)]
-           [alpha-d (if (= alpha -1)
-                        (v* d (safe-/ (- (sqrt (+ (* 4 dl c) (* c c))) c) (* 4 dl)))
-                        (v* d alpha))]
+           [alpha-d (case alpha
+                      ((-1) (v* d (safe-/ (- (sqrt (+ (* 4 dl c) (* c c))) c) (* 4 dl))))
+                      ((-2) (v* d (solve-depressed (safe-/ (* 16 dl dl) c c) 2 -1)))
+                      (else (v* d alpha)))]
            [h (if (= alpha -1)
                   (- (/ dl 2) (vlength alpha-d))
                   (* (scalar-product alpha-d alpha-d) 2 (safe-/ c)))])
